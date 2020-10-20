@@ -34,15 +34,16 @@ func main() {
 
 	container.Invoke(func(
 		orgService *services.OrgService,
+		ticketService *services.TicketService,
 	) {
-		orgs, err := orgService.List("_id", "119")
+		results, err := ticketService.List("url", "http://initech.tokoin.io.com/api/v2/tickets/436bf9b0-1147-4c0a-8439-6f79833bff5b.json")
 		if err != nil {
 			fmt.Println(err)
 		}
 
-		if orgs != nil {
-			for _, org := range *orgs {
-				fmt.Println(org.ToString())
+		if results != nil {
+			for _, e := range *results {
+				fmt.Println(e.ToString())
 			}
 		}
 

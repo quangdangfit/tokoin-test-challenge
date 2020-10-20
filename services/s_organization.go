@@ -39,17 +39,17 @@ func (s *OrgService) List(key, value string) (*schema.Organizations, error) {
 		// Get tickets of organization
 		tickets, err := s.ticketRepo.List("organization_id", strOrgID)
 		if err != nil {
-			fmt.Printf("Cannot get tickets for organization %s. Error: %s\n", strOrgID, err)
+			fmt.Printf("Cannot get tickets of organization %s. Error: %s\n", strOrgID, err)
 		}
 		rs.TicketSubjects = []string{}
 		for _, t := range *tickets {
 			rs.TicketSubjects = append(rs.TicketSubjects, t.Subject)
 		}
 
-		// Get user names fo organization
+		// Get user names of organization
 		users, err := s.userRepo.List("organization_id", strOrgID)
 		if err != nil {
-			fmt.Printf("Cannot get tickets for organization %s. Error: %s\n", strOrgID, err)
+			fmt.Printf("Cannot get tickets of organization %s. Error: %s\n", strOrgID, err)
 		}
 
 		rs.UserNames = []string{}
