@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 )
 
-func ReadJsonFile(path string) (map[string]interface{}, error) {
-	var data map[string]interface{}
+func ReadJsonFile(path string) ([]map[string]interface{}, error) {
+	var data []map[string]interface{}
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
