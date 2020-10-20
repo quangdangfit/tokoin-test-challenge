@@ -18,7 +18,7 @@ type UserRepo struct {
 }
 
 func NewUserRepository() repositories.IUserRepository {
-	path := config.Config.Data.Organization
+	path := config.Config.Data.User
 	data, err := utils.ReadJsonFile(path)
 	if err != nil {
 		fmt.Printf("Cannot load data from file %s. Error: %s\n", path, err.Error())
