@@ -35,8 +35,9 @@ func main() {
 	container.Invoke(func(
 		orgService *services.OrgService,
 		ticketService *services.TicketService,
+		userService *services.UserService,
 	) {
-		results, err := ticketService.List("url", "http://initech.tokoin.io.com/api/v2/tickets/436bf9b0-1147-4c0a-8439-6f79833bff5b.json")
+		results, err := userService.List("url", "http://initech.tokoin.io.com/api/v2/users/38.json")
 		if err != nil {
 			fmt.Println(err)
 		}
