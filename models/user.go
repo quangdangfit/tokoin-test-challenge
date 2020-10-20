@@ -21,3 +21,5 @@ type User struct {
 	Suspended      bool     `json:"suspended"`
 	Role           string   `json:"role"`
 }
+
+type Users []*User
