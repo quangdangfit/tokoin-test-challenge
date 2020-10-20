@@ -5,8 +5,8 @@ import (
 
 	"go.uber.org/dig"
 
-	"tokoin/repositories"
 	"tokoin/repositories/files"
+	"tokoin/services"
 )
 
 func BuildContainer() *dig.Container {
@@ -18,6 +18,12 @@ func BuildContainer() *dig.Container {
 		fmt.Println("Failed to inject repositories ", err)
 	}
 
+	// Inject repositories
+	err = services.Inject(container)
+	if err != nil {
+		fmt.Println("Failed to inject services ", err)
+	}
+
 	return container
 }
 
@@ -27,10 +33,9 @@ func main() {
 	container := BuildContainer()
 
 	container.Invoke(func(
-		orgRepo repositories.IOrgRepository,
-		ticketRepo repositories.ITicketRepository,
-	) error {
-		orgs, err := orgRepo.List("_id", "101")
+		orgService *services.OrgService,
+	) {
+		orgs, err := orgService.List("_id", "119")
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -41,13 +46,5 @@ func main() {
 			}
 		}
 
-		tickets, err := ticketRepo.List("organization_id", "116")
-		if tickets != nil {
-			for _, ticket := range *tickets {
-				fmt.Println(ticket.ToString())
-			}
-		}
-
-		return nil
 	})
 }
