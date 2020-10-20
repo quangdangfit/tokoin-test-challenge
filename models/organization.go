@@ -1,5 +1,7 @@
 package models
 
+import "tokoin/utils"
+
 type Organization struct {
 	ID            int      `json:"_id"`
 	URL           string   `json:"url"`
@@ -13,3 +15,7 @@ type Organization struct {
 }
 
 type Organizations []*Organization
+
+func (o Organization) ToString() string {
+	return utils.Jsonify(o)
+}

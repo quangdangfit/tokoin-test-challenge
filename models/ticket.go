@@ -1,5 +1,7 @@
 package models
 
+import "tokoin/utils"
+
 type Ticket struct {
 	ID             string   `json:"_id"`
 	URL            string   `json:"url"`
@@ -17,4 +19,10 @@ type Ticket struct {
 	HasIncidents   bool     `json:"has_incidents"`
 	DueAt          string   `json:"due_at"`
 	Via            string   `json:"via"`
+}
+
+type Tickets []*Ticket
+
+func (t Ticket) ToString() string {
+	return utils.Jsonify(t)
 }

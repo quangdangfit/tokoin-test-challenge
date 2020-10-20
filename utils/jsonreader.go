@@ -18,3 +18,8 @@ func ReadJsonFile(path string) ([]map[string]interface{}, error) {
 	}
 	return data, nil
 }
+
+func Jsonify(m interface{}) string {
+	b, _ := json.MarshalIndent(m, "", "  ")
+	return string(b)
+}

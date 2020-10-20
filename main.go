@@ -28,6 +28,7 @@ func main() {
 
 	container.Invoke(func(
 		orgRepo repositories.IOrgRepository,
+		ticketRepo repositories.ITicketRepository,
 	) error {
 		orgs, err := orgRepo.List("_id", "101")
 		if err != nil {
@@ -36,7 +37,14 @@ func main() {
 
 		if orgs != nil {
 			for _, org := range *orgs {
-				fmt.Println(*org)
+				fmt.Println(org.ToString())
+			}
+		}
+
+		tickets, err := ticketRepo.List("organization_id", "116")
+		if tickets != nil {
+			for _, ticket := range *tickets {
+				fmt.Println(ticket.ToString())
 			}
 		}
 
