@@ -1,0 +1,4 @@
+data:
+  organization: data/organizations.json
+  user: data/users.json
+  ticket: data/tickets.json
