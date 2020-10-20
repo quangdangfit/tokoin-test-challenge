@@ -3,6 +3,6 @@ package repositories
 import "tokoin/models"
 
 type IOrgRepository interface {
-	Retrieve(key string, value string) (*models.Organization, error)
-	List(key string, value string) (*[]models.Organization, error)
+	Retrieve(id int) (*models.Organization, error)
+	List(key, value string) (*models.Organizations, error)
 }
