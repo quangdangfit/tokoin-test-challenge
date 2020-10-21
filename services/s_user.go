@@ -18,7 +18,6 @@ type UserService struct {
 
 func NewUserService(orgRepo repositories.IOrgRepository, ticketRepo repositories.ITicketRepository,
 	userRepo repositories.IUserRepository) *UserService {
-	fmt.Println("New user service")
 	return &UserService{
 		orgRepo:    orgRepo,
 		ticketRepo: ticketRepo,
