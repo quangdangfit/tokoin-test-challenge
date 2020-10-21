@@ -30,25 +30,25 @@ type SearchTestCase struct {
 	ExpectedError  bool
 }
 
-var orgRepo *files.OrganizationRepo
-var ticketRepo *files.TicketRepo
-var userRepo *files.UserRepo
+var mockOrgRepo *files.OrganizationRepo
+var mockTicketRepo *files.TicketRepo
+var mockUserRepo *files.UserRepo
 
 var mockOrgService *services.OrgService
 var mockTicketService *services.TicketService
 var mockUserService *services.UserService
 
 func init() {
-	orgRepo = &files.OrganizationRepo{}
-	orgRepo.LoadData(TestDataOrgFilePath)
+	mockOrgRepo = &files.OrganizationRepo{}
+	mockOrgRepo.LoadData(TestDataOrgFilePath)
 
-	ticketRepo = &files.TicketRepo{}
-	ticketRepo.LoadData(TestDataTicketFilePath)
+	mockTicketRepo = &files.TicketRepo{}
+	mockTicketRepo.LoadData(TestDataTicketFilePath)
 
-	userRepo = &files.UserRepo{}
-	userRepo.LoadData(TestDataUserFilePath)
+	mockUserRepo = &files.UserRepo{}
+	mockUserRepo.LoadData(TestDataUserFilePath)
 
-	mockOrgService = services.NewOrgService(orgRepo, ticketRepo, userRepo)
-	mockTicketService = services.NewTicketService(orgRepo, ticketRepo, userRepo)
-	mockUserService = services.NewUserService(orgRepo, ticketRepo, userRepo)
+	mockOrgService = services.NewOrgService(mockOrgRepo, mockTicketRepo, mockUserRepo)
+	mockTicketService = services.NewTicketService(mockOrgRepo, mockTicketRepo, mockUserRepo)
+	mockUserService = services.NewUserService(mockOrgRepo, mockTicketRepo, mockUserRepo)
 }
