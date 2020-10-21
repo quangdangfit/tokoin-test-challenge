@@ -1,0 +1,71 @@
+[
+  {
+    "_id": "27c447d9-cfda-4415-9a72-d5aa12942cf1",
+    "url": "http://initech.tokoin.io.com/api/v2/tickets/27c447d9-cfda-4415-9a72-d5aa12942cf1.json",
+    "external_id": "d3516c61-d232-4f64-a0f4-a496d550cd04",
+    "created_at": "2016-01-31T07:43:00 -11:00",
+    "type": "incident",
+    "subject": "A Problem in Guyana",
+    "description": "Ex sit ea sit exercitation tempor pariatur et do deserunt irure eiusmod. Exercitation anim consectetur amet anim id.",
+    "priority": "normal",
+    "status": "closed",
+    "submitter_id": 67,
+    "assignee_id": 74,
+    "organization_id": 101,
+    "tags": [
+      "Mississippi",
+      "Marshall Islands",
+      "South Dakota",
+      "Montana"
+    ],
+    "has_incidents": false,
+    "due_at": "2016-08-18T10:49:09 -10:00",
+    "via": "web"
+  },
+  {
+    "_id": "89255552-e9a2-433b-970a-af194b3a39dd",
+    "url": "http://initech.tokoin.io.com/api/v2/tickets/89255552-e9a2-433b-970a-af194b3a39dd.json",
+    "external_id": "385ac1f0-e1e9-4bed-ba06-2f3013d8e914",
+    "created_at": "2016-01-20T01:23:55 -11:00",
+    "type": "task",
+    "subject": "A Problem in Turks and Caicos Islands",
+    "description": "Qui ea sit incididunt culpa commodo velit fugiat reprehenderit. Eu quis sint nulla ut veniam irure sunt ad elit proident dolore.",
+    "priority": "low",
+    "status": "pending",
+    "submitter_id": 39,
+    "assignee_id": 52,
+    "organization_id": 101,
+    "tags": [
+      "Virginia",
+      "Virgin Islands",
+      "Maine",
+      "West Virginia"
+    ],
+    "has_incidents": false,
+    "due_at": "2016-08-08T07:24:14 -10:00",
+    "via": "web"
+  },
+  {
+    "_id": "c22aaced-7faa-4b5c-99e5-1a209500ff16",
+    "url": "http://initech.tokoin.io.com/api/v2/tickets/c22aaced-7faa-4b5c-99e5-1a209500ff16.json",
+    "external_id": "b17a9d1b-bc80-4262-a387-bb4f4209d7e2",
+    "created_at": "2016-07-11T08:52:25 -10:00",
+    "type": "incident",
+    "subject": "A Problem in Ethiopia",
+    "description": "Esse anim nisi nostrud est. Mollit in nisi reprehenderit proident do commodo voluptate veniam voluptate.",
+    "priority": "low",
+    "status": "hold",
+    "submitter_id": 55,
+    "assignee_id": 55,
+    "organization_id": 101,
+    "tags": [
+      "Minnesota",
+      "New Jersey",
+      "Texas",
+      "Nevada"
+    ],
+    "has_incidents": true,
+    "due_at": "2016-08-06T09:22:54 -10:00",
+    "via": "web"
+  }
+]
