@@ -16,3 +16,39 @@ the results, i.e.
 description is empty.
 * Search can get pretty complicated pretty easily, we just want to see that you
 can code a basic search application.
+
+#### Setup
+* Copy file config `cp config/config.sample.yaml config/config.yaml`
+* Install require packages: `go mod vendor`
+
+#### Build and Run
+##### Run
+```shell script
+go run main.go
+```
+##### Test
+```shell script
+go test ./tests
+```
+The test coverage is `87.4%` statements. 
+
+#### Structure
+```shell script
+├── config          # Contain config file
+├── data            # Contain data files
+├── models          # Models Layer: contain models
+├── repositories    # Repositories Layer: contain interface and implement
+│   └── files       # Repositories implement: handle get data from files
+├── schema          # Contain schemas
+├── services        # Business Logic Layer  
+├── tests           # Tests package: defaine testcases and implement unittest
+│   └── data        # Contain data test files
+├── utils           # Utilities package
+```
+
+#### Result
+* `200/200` testcases passed
+* The test coverage is `87.4%` statements.
+
+#### Contributing
+If you want to contribute to this boilerplate, clone the repository and just start making pull requests.
