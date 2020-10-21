@@ -19,7 +19,7 @@ type OrganizationRepo struct {
 
 func NewOrgRepository() repositories.IOrgRepository {
 	orgRepo := OrganizationRepo{}
-	err := orgRepo.LoadData()
+	err := orgRepo.LoadData(config.Config.Data.Organization)
 	if err != nil {
 		fmt.Println("Cannot load data, error: ", err)
 	}
@@ -27,8 +27,7 @@ func NewOrgRepository() repositories.IOrgRepository {
 	return &orgRepo
 }
 
-func (r *OrganizationRepo) LoadData() error {
-	path := config.Config.Data.Organization
+func (r *OrganizationRepo) LoadData(path string) error {
 	data, err := utils.ReadJsonFile(path)
 	if err != nil {
 		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
