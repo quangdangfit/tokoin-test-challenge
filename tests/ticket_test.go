@@ -100,10 +100,10 @@ func TestTicketSearchInvalidInput(t *testing.T) {
 
 	testcases := []SearchTestCase{
 		// search by invalid input.
-		{"Search by existed submitter_id", SearchArgs{"submitter_id", "submitter_id"}, 0, true},
-		{"Search by existed assignee_id", SearchArgs{"assignee_id", "assignee_id"}, 0, true},
-		{"Search by existed organization_id", SearchArgs{"organization_id", "organization_id"}, 0, true},
-		{"Search by existed has_incidents", SearchArgs{"has_incidents", "has_incidents"}, 0, true},
+		{"Search by invalid submitter_id", SearchArgs{"submitter_id", "submitter_id"}, 0, true},
+		{"Search by invalid assignee_id", SearchArgs{"assignee_id", "assignee_id"}, 0, true},
+		{"Search by invalid organization_id", SearchArgs{"organization_id", "organization_id"}, 0, true},
+		{"Search by invalid has_incidents", SearchArgs{"has_incidents", "has_incidents"}, 0, true},
 	}
 
 	for _, testcase := range testcases {

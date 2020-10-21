@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/pkg/errors"
 
@@ -58,7 +57,7 @@ func (r *UserRepo) List(key, value string) (*models.Users, error) {
 	case "_id":
 		id, err := strconv.Atoi(value)
 		if err != nil {
-			return nil, errors.New("input _id is invalid")
+			return &results, errors.New("input _id is invalid")
 		}
 		for _, user := range r.users {
 			if user.ID == id {
@@ -96,21 +95,33 @@ func (r *UserRepo) List(key, value string) (*models.Users, error) {
 			}
 		}
 	case "active":
-		v := strings.ToLower(value) == "true"
+		v, err := utils.StringToBoolean(value)
+		if err != nil {
+			return &results, err
+		}
+
 		for _, user := range r.users {
 			if user.Active == v {
 				results = append(results, user)
 			}
 		}
 	case "verified":
-		v := strings.ToLower(value) == "true"
+		v, err := utils.StringToBoolean(value)
+		if err != nil {
+			return &results, err
+		}
+
 		for _, user := range r.users {
 			if user.Verified == v {
 				results = append(results, user)
 			}
 		}
 	case "shared":
-		v := strings.ToLower(value) == "true"
+		v, err := utils.StringToBoolean(value)
+		if err != nil {
+			return &results, err
+		}
+
 		for _, user := range r.users {
 			if user.Shared == v {
 				results = append(results, user)
@@ -155,7 +166,7 @@ func (r *UserRepo) List(key, value string) (*models.Users, error) {
 	case "organization_id":
 		id, err := strconv.Atoi(value)
 		if err != nil {
-			return nil, errors.New("input organization_id is invalid")
+			return &results, errors.New("input organization_id is invalid")
 		}
 		for _, user := range r.users {
 			if user.OrganizationID == id {
@@ -172,7 +183,11 @@ func (r *UserRepo) List(key, value string) (*models.Users, error) {
 			}
 		}
 	case "suspended":
-		v := strings.ToLower(value) == "true"
+		v, err := utils.StringToBoolean(value)
+		if err != nil {
+			return &results, err
+		}
+
 		for _, user := range r.users {
 			if user.Suspended == v {
 				results = append(results, user)

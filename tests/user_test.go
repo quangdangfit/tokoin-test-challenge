@@ -103,6 +103,12 @@ func TestUserSearchInvalidInput(t *testing.T) {
 
 	testcases := []SearchTestCase{
 		// search by invalid input.
+		{"Search by invalid _id", SearchArgs{"_id", "id"}, 0, true},
+		{"Search by invalid active", SearchArgs{"active", "active"}, 0, true},
+		{"Search by invalid verified", SearchArgs{"verified", "verified"}, 0, true},
+		{"Search by invalid shared", SearchArgs{"shared", "shared"}, 0, true},
+		{"Search by invalid organization_id", SearchArgs{"organization_id", "organization_id"}, 0, true},
+		{"Search by invalid suspended", SearchArgs{"suspended", "suspended"}, 0, true},
 	}
 
 	for _, testcase := range testcases {
