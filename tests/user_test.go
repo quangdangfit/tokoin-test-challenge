@@ -70,6 +70,21 @@ func TestUserSearchNotExistedRecord(t *testing.T) {
 
 	testcases := []SearchTestCase{
 		// search not existed record..
+		{"Search by not existed _id", SearchArgs{"_id", "01"}, 0, false},
+		{"Search by not existed url", SearchArgs{"url", "http://initech.tokoin.io.com/api/v2/users/01.json"}, 0, false},
+		{"Search by not existed external_id", SearchArgs{"external_id", "95387bef-5870-4453-9431"}, 0, false},
+		{"Search by not existed name", SearchArgs{"name", "Quang Dang"}, 0, false},
+		{"Search by not existed alias", SearchArgs{"alias", "Miss Hoa"}, 0, false},
+		{"Search by not existed created_at", SearchArgs{"created_at", "2016-02-17T10:35:02 -11:11"}, 0, false},
+		{"Search by not existed locale", SearchArgs{"locale", "vi-VN"}, 0, false},
+		{"Search by not existed timezone", SearchArgs{"timezone", "Vietnam"}, 0, false},
+		{"Search by not existed last_login_at", SearchArgs{"last_login_at", "2016-02-19T03:04:47 -11:11"}, 0, false},
+		{"Search by not existed email", SearchArgs{"email", "email@email.com"}, 0, false},
+		{"Search by not existed phone", SearchArgs{"phone", "1111-222-333"}, 0, false},
+		{"Search by not existed signature", SearchArgs{"signature", "The signature"}, 0, false},
+		{"Search by not existed organization_id", SearchArgs{"organization_id", "100"}, 0, false},
+		{"Search by not existed tags", SearchArgs{"tags", "Dang"}, 0, false},
+		{"Search by not existed role", SearchArgs{"role", "role"}, 0, false},
 	}
 
 	for _, testcase := range testcases {
