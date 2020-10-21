@@ -8,10 +8,6 @@ import (
 	"tokoin/repositories/files"
 )
 
-const (
-	TestDataTicketFilePath = "data/tickets.json"
-)
-
 func TestTicketLoadData(t *testing.T) {
 	testcases := []TestCase{
 		{"Load from existed file", TestDataTicketFilePath, nil, false},

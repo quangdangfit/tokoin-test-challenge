@@ -1,28 +1,12 @@
 package tests
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
-	"tokoin/repositories/files"
-	"tokoin/services"
 )
 
 func TestOrganizationServiceSearchExistedRecordTicketSubjects(t *testing.T) {
-	orgRepo := &files.OrganizationRepo{}
-	assert.Nil(t, orgRepo.LoadData(TestDataOrgFilePath))
-
-	ticketRepo := &files.TicketRepo{}
-	assert.Nil(t, ticketRepo.LoadData(TestDataTicketFilePath))
-
-	userRepo := &files.UserRepo{}
-	assert.Nil(t, userRepo.LoadData(TestDataUserFilePath))
-
-	orgService := services.NewOrgService(orgRepo, ticketRepo, userRepo)
-	fmt.Println(*orgService)
-
 	testcases := []SearchTestCase{
 		// search existed record and check ticket subjects.
 		{"Search by existed _id and check ticket subjects", SearchArgs{"_id", "101"}, 3, false},
@@ -37,7 +21,7 @@ func TestOrganizationServiceSearchExistedRecordTicketSubjects(t *testing.T) {
 
 	for _, testcase := range testcases {
 		t.Run(testcase.Name, func(t *testing.T) {
-			results, err := orgService.List(testcase.Args.Key, testcase.Args.Value)
+			results, err := mockOrgService.List(testcase.Args.Key, testcase.Args.Value)
 			assert.NotNil(t, results, err)
 			assert.Greater(t, len(*results), 0, err)
 			assert.Equal(t, testcase.ExpectedResult, len((*results)[0].TicketSubjects), err)
@@ -47,18 +31,6 @@ func TestOrganizationServiceSearchExistedRecordTicketSubjects(t *testing.T) {
 }
 
 func TestOrganizationServiceSearchExistedRecordUserNames(t *testing.T) {
-	orgRepo := &files.OrganizationRepo{}
-	assert.Nil(t, orgRepo.LoadData(TestDataOrgFilePath))
-
-	ticketRepo := &files.TicketRepo{}
-	assert.Nil(t, ticketRepo.LoadData(TestDataTicketFilePath))
-
-	userRepo := &files.UserRepo{}
-	assert.Nil(t, userRepo.LoadData(TestDataUserFilePath))
-
-	orgService := services.NewOrgService(orgRepo, ticketRepo, userRepo)
-	fmt.Println(*orgService)
-
 	testcases := []SearchTestCase{
 		// search existed record and check ticket subjects.
 		{"Search by existed _id and check user names", SearchArgs{"_id", "101"}, 2, false},
@@ -73,7 +45,7 @@ func TestOrganizationServiceSearchExistedRecordUserNames(t *testing.T) {
 
 	for _, testcase := range testcases {
 		t.Run(testcase.Name, func(t *testing.T) {
-			results, err := orgService.List(testcase.Args.Key, testcase.Args.Value)
+			results, err := mockOrgService.List(testcase.Args.Key, testcase.Args.Value)
 			assert.NotNil(t, results, err)
 			assert.Greater(t, len(*results), 0, err)
 			assert.Equal(t, testcase.ExpectedResult, len((*results)[0].UserNames), err)

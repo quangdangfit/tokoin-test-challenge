@@ -8,10 +8,6 @@ import (
 	"tokoin/repositories/files"
 )
 
-const (
-	TestDataOrgFilePath = "data/organizations.json"
-)
-
 func TestOrganizationLoadData(t *testing.T) {
 	testcases := []TestCase{
 		{"Load from existed file", TestDataOrgFilePath, nil, false},

@@ -8,10 +8,6 @@ import (
 	"tokoin/repositories/files"
 )
 
-const (
-	TestDataUserFilePath = "data/users.json"
-)
-
 func TestUserLoadData(t *testing.T) {
 	testcases := []TestCase{
 		{"Load from existed file", TestDataUserFilePath, nil, false},
