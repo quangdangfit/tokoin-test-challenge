@@ -2,10 +2,11 @@ package files
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/pkg/errors"
 
 	"tokoin/config"
 	"tokoin/models"
@@ -18,24 +19,27 @@ type UserRepo struct {
 }
 
 func NewUserRepository() repositories.IUserRepository {
-	path := config.Config.Data.User
+	userRepo := UserRepo{}
+	userRepo.LoadData(config.Config.Data.User)
+	return &userRepo
+}
+
+func (r *UserRepo) LoadData(path string) error {
 	data, err := utils.ReadJsonFile(path)
 	if err != nil {
-		fmt.Printf("Cannot load data from file %s. Error: %s\n", path, err.Error())
-		return nil
+		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
 	}
 
 	var users models.Users
 	bytes, err := json.Marshal(data)
 	if err != nil {
-		fmt.Printf("Data cannot marshal to json. Error: %s\n", err.Error())
-		return nil
+		return errors.Wrap(err, "cannot marshal to json")
 	}
 
 	json.Unmarshal(bytes, &users)
-	return &UserRepo{
-		users: users,
-	}
+	r.users = users
+
+	return nil
 }
 
 func (r *UserRepo) Retrieve(id int) (*models.User, error) {
