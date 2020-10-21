@@ -8,7 +8,7 @@ import (
 	"tokoin/repositories/files"
 )
 
-func TestUserLoadData(t *testing.T) {
+func TestUserRepoLoadData(t *testing.T) {
 	testcases := []TestCase{
 		{"Load from existed file", TestDataUserFilePath, nil, false},
 		{"Load from not existed file", "", nil, true},
@@ -23,10 +23,7 @@ func TestUserLoadData(t *testing.T) {
 	}
 }
 
-func TestUserSearchExistedRecord(t *testing.T) {
-	orgRepo := &files.UserRepo{}
-	assert.Nil(t, orgRepo.LoadData(TestDataUserFilePath))
-
+func TestUserRepoListExistedRecord(t *testing.T) {
 	testcases := []SearchTestCase{
 		// search existed record.
 		{"Search by existed _id", SearchArgs{"_id", "39"}, 1, false},
@@ -52,18 +49,15 @@ func TestUserSearchExistedRecord(t *testing.T) {
 
 	for _, testcase := range testcases {
 		t.Run(testcase.Name, func(t *testing.T) {
-			result, err := orgRepo.List(testcase.Args.Key, testcase.Args.Value)
-			assert.NotNil(t, result, err)
-			assert.Equal(t, testcase.ExpectedResult, len(*result), err)
+			results, err := mockUserRepo.List(testcase.Args.Key, testcase.Args.Value)
+			assert.NotNil(t, results, err)
+			assert.Equal(t, testcase.ExpectedResult, len(*results), err)
 			assert.Equal(t, testcase.ExpectedError, err != nil, err)
 		})
 	}
 }
 
-func TestUserSearchNotExistedRecord(t *testing.T) {
-	orgRepo := &files.UserRepo{}
-	assert.Nil(t, orgRepo.LoadData(TestDataUserFilePath))
-
+func TestUserRepoListNotExistedRecord(t *testing.T) {
 	testcases := []SearchTestCase{
 		// search not existed record..
 		{"Search by not existed _id", SearchArgs{"_id", "01"}, 0, false},
@@ -85,18 +79,15 @@ func TestUserSearchNotExistedRecord(t *testing.T) {
 
 	for _, testcase := range testcases {
 		t.Run(testcase.Name, func(t *testing.T) {
-			result, err := orgRepo.List(testcase.Args.Key, testcase.Args.Value)
-			assert.NotNil(t, result, err)
-			assert.Equal(t, testcase.ExpectedResult, len(*result), err)
+			results, err := mockUserRepo.List(testcase.Args.Key, testcase.Args.Value)
+			assert.NotNil(t, results, err)
+			assert.Equal(t, testcase.ExpectedResult, len(*results), err)
 			assert.Equal(t, testcase.ExpectedError, err != nil, err)
 		})
 	}
 }
 
-func TestUserSearchInvalidInput(t *testing.T) {
-	orgRepo := &files.UserRepo{}
-	assert.Nil(t, orgRepo.LoadData(TestDataUserFilePath))
-
+func TestUserRepoListInvalidInput(t *testing.T) {
 	testcases := []SearchTestCase{
 		// search by invalid input.
 		{"Search by invalid _id", SearchArgs{"_id", "id"}, 0, true},
@@ -109,9 +100,9 @@ func TestUserSearchInvalidInput(t *testing.T) {
 
 	for _, testcase := range testcases {
 		t.Run(testcase.Name, func(t *testing.T) {
-			result, err := orgRepo.List(testcase.Args.Key, testcase.Args.Value)
-			assert.NotNil(t, result, err)
-			assert.Equal(t, testcase.ExpectedResult, len(*result), err)
+			results, err := mockUserRepo.List(testcase.Args.Key, testcase.Args.Value)
+			assert.NotNil(t, results, err)
+			assert.Equal(t, testcase.ExpectedResult, len(*results), err)
 			assert.Equal(t, testcase.ExpectedError, err != nil, err)
 		})
 	}
