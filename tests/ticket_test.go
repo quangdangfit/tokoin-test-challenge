@@ -93,3 +93,25 @@ func TestTicketSearchNotExistedRecord(t *testing.T) {
 		})
 	}
 }
+
+func TestTicketSearchInvalidInput(t *testing.T) {
+	orgRepo := &files.TicketRepo{}
+	assert.Nil(t, orgRepo.LoadData(TestDataTicketFilePath))
+
+	testcases := []SearchTestCase{
+		// search by invalid input.
+		{"Search by existed submitter_id", SearchArgs{"submitter_id", "submitter_id"}, 0, true},
+		{"Search by existed assignee_id", SearchArgs{"assignee_id", "assignee_id"}, 0, true},
+		{"Search by existed organization_id", SearchArgs{"organization_id", "organization_id"}, 0, true},
+		{"Search by existed has_incidents", SearchArgs{"has_incidents", "has_incidents"}, 0, true},
+	}
+
+	for _, testcase := range testcases {
+		t.Run(testcase.Name, func(t *testing.T) {
+			result, err := orgRepo.List(testcase.Args.Key, testcase.Args.Value)
+			assert.NotNil(t, result, err)
+			assert.Equal(t, testcase.ExpectedResult, len(*result), err)
+			assert.Equal(t, testcase.ExpectedError, err != nil, err)
+		})
+	}
+}

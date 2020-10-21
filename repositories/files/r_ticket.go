@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/pkg/errors"
 
@@ -102,7 +101,7 @@ func (r *TicketRepo) List(key, value string) (*models.Tickets, error) {
 	case "submitter_id":
 		id, err := strconv.Atoi(value)
 		if err != nil {
-			return nil, errors.New("input submitter_id is invalid")
+			return &results, errors.New("input submitter_id is invalid")
 		}
 
 		for _, org := range r.tickets {
@@ -113,7 +112,7 @@ func (r *TicketRepo) List(key, value string) (*models.Tickets, error) {
 	case "assignee_id":
 		id, err := strconv.Atoi(value)
 		if err != nil {
-			return nil, errors.New("input assignee_id is invalid")
+			return &results, errors.New("input assignee_id is invalid")
 		}
 
 		for _, org := range r.tickets {
@@ -124,7 +123,7 @@ func (r *TicketRepo) List(key, value string) (*models.Tickets, error) {
 	case "organization_id":
 		id, err := strconv.Atoi(value)
 		if err != nil {
-			return nil, errors.New("input organization_id is invalid")
+			return &results, errors.New("input organization_id is invalid")
 		}
 
 		for _, org := range r.tickets {
@@ -142,7 +141,11 @@ func (r *TicketRepo) List(key, value string) (*models.Tickets, error) {
 			}
 		}
 	case "has_incidents":
-		v := strings.ToLower(value) == "true"
+		v, err := utils.StringToBoolean(value)
+		if err != nil {
+			return &results, err
+		}
+
 		for _, org := range r.tickets {
 			if org.HasIncidents == v {
 				results = append(results, org)
