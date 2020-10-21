@@ -61,7 +61,7 @@ func (r *OrganizationRepo) List(key, value string) (*models.Organizations, error
 	case "_id":
 		id, err := strconv.Atoi(value)
 		if err != nil {
-			return nil, errors.New("input _id is invalid")
+			return &results, errors.New("input _id is invalid")
 		}
 		for _, org := range r.organizations {
 			if org.ID == id {
@@ -108,7 +108,11 @@ func (r *OrganizationRepo) List(key, value string) (*models.Organizations, error
 			}
 		}
 	case "shared_tickets":
-		v := value == "true"
+		v, err := utils.StringToBoolean(value)
+		if err != nil {
+			return &results, err
+		}
+
 		for _, org := range r.organizations {
 			if org.SharedTickets == v {
 				results = append(results, org)
