@@ -2,9 +2,10 @@ package files
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"strconv"
+
+	"github.com/pkg/errors"
 
 	"tokoin/config"
 	"tokoin/models"
@@ -17,24 +18,32 @@ type OrganizationRepo struct {
 }
 
 func NewOrgRepository() repositories.IOrgRepository {
+	orgRepo := OrganizationRepo{}
+	err := orgRepo.LoadData()
+	if err != nil {
+		fmt.Println("Cannot load data, error: ", err)
+	}
+
+	return &orgRepo
+}
+
+func (r *OrganizationRepo) LoadData() error {
 	path := config.Config.Data.Organization
 	data, err := utils.ReadJsonFile(path)
 	if err != nil {
-		fmt.Printf("Cannot load data from file %s. Error: %s\n", path, err.Error())
-		return nil
+		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
 	}
 
 	var orgs models.Organizations
 	bytes, err := json.Marshal(data)
 	if err != nil {
-		fmt.Printf("Data cannot marshal to json. Error: %s\n", err.Error())
-		return nil
+		return errors.Wrap(err, "cannot marshal to json")
 	}
 
 	json.Unmarshal(bytes, &orgs)
-	return &OrganizationRepo{
-		organizations: orgs,
-	}
+	r.organizations = orgs
+
+	return nil
 }
 
 func (r *OrganizationRepo) Retrieve(id int) (*models.Organization, error) {
