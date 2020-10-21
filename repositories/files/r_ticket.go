@@ -2,10 +2,11 @@ package files
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/pkg/errors"
 
 	"tokoin/config"
 	"tokoin/models"
@@ -18,24 +19,27 @@ type TicketRepo struct {
 }
 
 func NewTicketRepository() repositories.ITicketRepository {
-	path := config.Config.Data.Ticket
+	ticketRepo := TicketRepo{}
+	ticketRepo.LoadData(config.Config.Data.Ticket)
+	return &ticketRepo
+}
+
+func (r *TicketRepo) LoadData(path string) error {
 	data, err := utils.ReadJsonFile(path)
 	if err != nil {
-		fmt.Printf("Cannot load data from file %s. Error: %s\n", path, err.Error())
-		return nil
+		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
 	}
 
 	var tickets models.Tickets
 	bytes, err := json.Marshal(data)
 	if err != nil {
-		fmt.Printf("Data cannot marshal to json. Error: %s\n", err.Error())
-		return nil
+		return errors.Wrap(err, "cannot marshal to json")
 	}
 
 	json.Unmarshal(bytes, &tickets)
-	return &TicketRepo{
-		tickets: tickets,
-	}
+	r.tickets = tickets
+
+	return nil
 }
 
 func (r *TicketRepo) List(key, value string) (*models.Tickets, error) {
