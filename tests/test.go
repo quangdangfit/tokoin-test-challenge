@@ -35,8 +35,8 @@ var ticketRepo *files.TicketRepo
 var userRepo *files.UserRepo
 
 var mockOrgService *services.OrgService
-var ticketService *services.TicketService
-var userService *services.UserService
+var mockTicketService *services.TicketService
+var mockUserService *services.UserService
 
 func init() {
 	orgRepo = &files.OrganizationRepo{}
@@ -49,6 +49,6 @@ func init() {
 	userRepo.LoadData(TestDataUserFilePath)
 
 	mockOrgService = services.NewOrgService(orgRepo, ticketRepo, userRepo)
-	ticketService = services.NewTicketService(orgRepo, ticketRepo, userRepo)
-	userService = services.NewUserService(orgRepo, ticketRepo, userRepo)
+	mockTicketService = services.NewTicketService(orgRepo, ticketRepo, userRepo)
+	mockUserService = services.NewUserService(orgRepo, ticketRepo, userRepo)
 }
