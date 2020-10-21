@@ -9,12 +9,12 @@ import (
 )
 
 const (
-	TestDataFilePath = "data/organizations.json"
+	TestDataOrgFilePath = "data/organizations.json"
 )
 
 func TestOrganizationLoadData(t *testing.T) {
 	testcases := []TestCase{
-		{"Load from existed file", TestDataFilePath, nil, false},
+		{"Load from existed file", TestDataOrgFilePath, nil, false},
 		{"Load from not existed file", "", nil, true},
 	}
 
@@ -29,7 +29,7 @@ func TestOrganizationLoadData(t *testing.T) {
 
 func TestOrganizationSearch(t *testing.T) {
 	orgRepo := &files.OrganizationRepo{}
-	assert.Nil(t, orgRepo.LoadData(TestDataFilePath))
+	assert.Nil(t, orgRepo.LoadData(TestDataOrgFilePath))
 
 	testcases := []SearchTestCase{
 		// search existed record.
