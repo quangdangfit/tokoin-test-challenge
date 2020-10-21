@@ -27,7 +27,7 @@ func TestTicketLoadData(t *testing.T) {
 	}
 }
 
-func TestTicketSearch(t *testing.T) {
+func TestTicketSearchExistedRecord(t *testing.T) {
 	orgRepo := &files.TicketRepo{}
 	assert.Nil(t, orgRepo.LoadData(TestDataTicketFilePath))
 
@@ -49,21 +49,39 @@ func TestTicketSearch(t *testing.T) {
 		{"Search by existed has_incidents", SearchArgs{"has_incidents", "false"}, 2, false},
 		{"Search by existed due_at", SearchArgs{"due_at", "2016-08-08T07:24:14 -10:00"}, 1, false},
 		{"Search by existed via", SearchArgs{"via", "web"}, 3, false},
+	}
 
-		//// search not existed record..
-		//{"Search by not existed _id", SearchArgs{"_id", "111"}, 0, false},
-		//{"Search by not existed url", SearchArgs{"url", "http://initech.tokoin.io.com/api/v2/organizations/111.json"}, 0, false},
-		//{"Search by not existed external_id", SearchArgs{"external_id", "9270ed79-35eb-4a38-a46f-35725197ea11"}, 0, false},
-		//{"Search by not existed name", SearchArgs{"name", "Enthaze11"}, 0, false},
-		//{"Search by not existed domain_names", SearchArgs{"domain_names", "zentix11.com"}, 0, false},
-		//{"Search by not existed created_at", SearchArgs{"created_at", "2016-05-21T11:11:11 -10:00"}, 0, false},
-		//{"Search by not existed details", SearchArgs{"details", "Non profit11"}, 0, false},
-		//{"Search by not existed shared_tickets", SearchArgs{"shared_tickets", "true"}, 0, false},
-		//{"Search by not existed tags", SearchArgs{"tags", "Collier11"}, 0, false},
-		//
-		//// search by invalid input.
-		//{"Search by invalid _id", SearchArgs{"_id", "id"}, 0, true},
-		//{"Search by invalid shared_tickets", SearchArgs{"shared_tickets", "fasdf"}, 0, true},
+	for _, testcase := range testcases {
+		t.Run(testcase.Name, func(t *testing.T) {
+			result, err := orgRepo.List(testcase.Args.Key, testcase.Args.Value)
+			assert.NotNil(t, result, err)
+			assert.Equal(t, testcase.ExpectedResult, len(*result), err)
+			assert.Equal(t, testcase.ExpectedError, err != nil, err)
+		})
+	}
+}
+
+func TestTicketSearchNotExistedRecord(t *testing.T) {
+	orgRepo := &files.TicketRepo{}
+	assert.Nil(t, orgRepo.LoadData(TestDataTicketFilePath))
+
+	testcases := []SearchTestCase{
+		// search not existed record..
+		{"Search by not existed _id", SearchArgs{"_id", "27c447d9-cfda-4415-9a72"}, 0, false},
+		{"Search by not existed url", SearchArgs{"url", "http://initech.tokoin.io.com/api/v2/tickets/27c447d9-cfda-4415-9a72.json"}, 0, false},
+		{"Search by not existed external_id", SearchArgs{"external_id", "385ac1f0-e1e9-4bed-ba06"}, 0, false},
+		{"Search by not existed created_at", SearchArgs{"created_at", "2016-01-20T01:23:55 -11:11"}, 0, false},
+		{"Search by not existed type", SearchArgs{"type", "type"}, 0, false},
+		{"Search by not existed subject", SearchArgs{"subject", "A Problem in Vietnam"}, 0, false},
+		{"Search by not existed description", SearchArgs{"description", "The description."}, 0, false},
+		{"Search by not existed priority", SearchArgs{"priority", "unknown"}, 0, false},
+		{"Search by not existed status", SearchArgs{"status", "sold"}, 0, false},
+		{"Search by not existed submitter_id", SearchArgs{"submitter_id", "100"}, 0, false},
+		{"Search by not existed assignee_id", SearchArgs{"assignee_id", "100"}, 0, false},
+		{"Search by not existed organization_id", SearchArgs{"organization_id", "100"}, 0, false},
+		{"Search by not existed tags", SearchArgs{"tags", "Quang"}, 0, false},
+		{"Search by not existed due_at", SearchArgs{"due_at", "2016-08-08T07:24:14 -10:11"}, 0, false},
+		{"Search by not existed via", SearchArgs{"via", "tv"}, 0, false},
 	}
 
 	for _, testcase := range testcases {
