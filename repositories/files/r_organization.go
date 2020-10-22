@@ -127,6 +127,8 @@ func (r *OrganizationRepo) List(key, value string) (*models.Organizations, error
 				}
 			}
 		}
+	default:
+		return &results, errors.New("key is invalid")
 	}
 
 	return &results, nil

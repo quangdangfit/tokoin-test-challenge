@@ -37,28 +37,49 @@ func (s *OrgService) List(key, value string) (*schema.Organizations, error) {
 		strOrgID := strconv.Itoa(org.ID)
 
 		// Get tickets of organization
-		tickets, err := s.ticketRepo.List("organization_id", strOrgID)
+		ticketSubjects, err := s.getTicketSubjects(strOrgID)
 		if err != nil {
-			fmt.Printf("Cannot get tickets of organization %s. Error: %s\n", strOrgID, err)
+			fmt.Printf("Cannot get ticket subjects of organization %s. Error: %s\n", strOrgID, err)
 		}
-		rs.TicketSubjects = []string{}
-		for _, t := range *tickets {
-			rs.TicketSubjects = append(rs.TicketSubjects, t.Subject)
-		}
+		rs.TicketSubjects = ticketSubjects
 
 		// Get user names of organization
-		users, err := s.userRepo.List("organization_id", strOrgID)
+		userNames, err := s.getUserNames(strOrgID)
 		if err != nil {
-			fmt.Printf("Cannot get tickets of organization %s. Error: %s\n", strOrgID, err)
+			fmt.Printf("Cannot get user names of organization %s. Error: %s\n", strOrgID, err)
 		}
-
-		rs.UserNames = []string{}
-		for _, u := range *users {
-			rs.UserNames = append(rs.UserNames, u.Name)
-		}
+		rs.UserNames = userNames
 
 		results = append(results, &rs)
 	}
 
 	return &results, nil
+}
+
+func (s *OrgService) getTicketSubjects(orgID string) ([]string, error) {
+	tSubjects := []string{}
+	tickets, err := s.ticketRepo.List("organization_id", orgID)
+	if err != nil {
+		return tSubjects, err
+	}
+
+	for _, t := range *tickets {
+		tSubjects = append(tSubjects, t.Subject)
+	}
+
+	return tSubjects, nil
+}
+
+func (s *OrgService) getUserNames(orgID string) ([]string, error) {
+	uNames := []string{}
+	users, err := s.userRepo.List("organization_id", orgID)
+	if err != nil {
+		return uNames, err
+	}
+
+	for _, u := range *users {
+		uNames = append(uNames, u.Name)
+	}
+
+	return uNames, nil
 }

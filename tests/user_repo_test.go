@@ -96,6 +96,7 @@ func TestUserRepoListInvalidInput(t *testing.T) {
 		{"Search by invalid shared", SearchArgs{"shared", "shared"}, 0, true},
 		{"Search by invalid organization_id", SearchArgs{"organization_id", "organization_id"}, 0, true},
 		{"Search by invalid suspended", SearchArgs{"suspended", "suspended"}, 0, true},
+		{"Search by invalid key", SearchArgs{"key", "value"}, 0, true},
 	}
 
 	for _, testcase := range testcases {

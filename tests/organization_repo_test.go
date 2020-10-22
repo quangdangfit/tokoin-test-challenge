@@ -76,6 +76,7 @@ func TestOrganizationRepoListInvalidInput(t *testing.T) {
 		// search by invalid input.
 		{"Search by invalid _id", SearchArgs{"_id", "id"}, 0, true},
 		{"Search by invalid shared_tickets", SearchArgs{"shared_tickets", "fasdf"}, 0, true},
+		{"Search by invalid key", SearchArgs{"key", "value"}, 0, true},
 	}
 
 	for _, testcase := range testcases {

@@ -163,6 +163,8 @@ func (r *TicketRepo) List(key, value string) (*models.Tickets, error) {
 				results = append(results, org)
 			}
 		}
+	default:
+		return &results, errors.New("key is invalid")
 	}
 
 	return &results, nil

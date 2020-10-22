@@ -199,6 +199,8 @@ func (r *UserRepo) List(key, value string) (*models.Users, error) {
 				results = append(results, user)
 			}
 		}
+	default:
+		return &results, errors.New("key is invalid")
 	}
 
 	return &results, nil
