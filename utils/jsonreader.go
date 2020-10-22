@@ -19,6 +19,14 @@ func ReadJsonFile(path string) ([]map[string]interface{}, error) {
 	return data, nil
 }
 
+func ReadJson(path string) ([]byte, error) {
+	bytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	return bytes, nil
+}
+
 func Jsonify(m interface{}) string {
 	b, _ := json.MarshalIndent(m, "", "  ")
 	return string(b)

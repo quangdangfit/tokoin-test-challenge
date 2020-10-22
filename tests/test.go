@@ -40,7 +40,7 @@ var mockUserService *services.UserService
 
 func init() {
 	mockOrgRepo = &files.OrganizationRepo{}
-	mockOrgRepo.LoadData(TestDataOrgFilePath)
+	mockOrgRepo.LoadDataFromFile(TestDataOrgFilePath)
 
 	mockTicketRepo = &files.TicketRepo{}
 	mockTicketRepo.LoadData(TestDataTicketFilePath)

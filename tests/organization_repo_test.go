@@ -8,22 +8,72 @@ import (
 	"tokoin/repositories/files"
 )
 
-func TestOrganizationRepoLoadData(t *testing.T) {
+const invalidDataOrg = `org`
+const mockDataOrg = `
+[
+  {
+    "_id": 101,
+    "url": "http://initech.tokoin.io.com/api/v2/organizations/101.json",
+    "external_id": "9270ed79-35eb-4a38-a46f-35725197ea8d",
+    "name": "Enthaze",
+    "domain_names": [
+      "kage.com",
+      "ecratic.com",
+      "endipin.com",
+      "zentix.com"
+    ],
+    "created_at": "2016-05-21T11:10:28 -10:00",
+    "details": "MegaCorp",
+    "shared_tickets": false,
+    "tags": [
+      "Fulton",
+      "West",
+      "Rodriguez",
+      "Farley"
+    ]
+  },
+  {
+    "_id": 102,
+    "url": "http://initech.tokoin.io.com/api/v2/organizations/102.json",
+    "external_id": "7cd6b8d4-2999-4ff2-8cfd-44d05b449226",
+    "name": "Nutralab",
+    "domain_names": [
+      "trollery.com",
+      "datagen.com",
+      "bluegrain.com",
+      "dadabase.com"
+    ],
+    "created_at": "2016-04-07T08:21:44 -10:00",
+    "details": "Non profit",
+    "shared_tickets": false,
+    "tags": [
+      "Cherry",
+      "Collier",
+      "Fuentes",
+      "Trevino"
+    ]
+  }
+]`
+
+func TestOrganizationRepoLoadDataFromBytes(t *testing.T) {
 	testcases := []TestCase{
-		{"Load from existed file", TestDataOrgFilePath, nil, false},
-		{"Load from not existed file", "", nil, true},
+		{"Load from existed file", mockDataOrg, nil, false},
+		{"Load from not existed file", invalidDataOrg, nil, true},
 	}
 
 	for _, testcase := range testcases {
 		t.Run(testcase.Name, func(t *testing.T) {
 			repo := &files.OrganizationRepo{}
-			err := repo.LoadData(testcase.Args.(string))
+			err := repo.LoadDataFromBytes([]byte(testcase.Args.(string)))
 			assert.Equal(t, testcase.ExpectedError, err != nil, err)
 		})
 	}
 }
 
 func TestOrganizationRepoListExistedRecord(t *testing.T) {
+	mockOrgRepo := &files.OrganizationRepo{}
+	mockOrgRepo.LoadDataFromBytes([]byte(mockDataOrg))
+
 	testcases := []SearchTestCase{
 		// search existed record.
 		{"Search by existed _id", SearchArgs{"_id", "101"}, 1, false},
@@ -48,6 +98,9 @@ func TestOrganizationRepoListExistedRecord(t *testing.T) {
 }
 
 func TestOrganizationRepoListNotExistedRecord(t *testing.T) {
+	mockOrgRepo := &files.OrganizationRepo{}
+	mockOrgRepo.LoadDataFromBytes([]byte(mockDataOrg))
+
 	testcases := []SearchTestCase{
 		// search not existed record..
 		{"Search by not existed _id", SearchArgs{"_id", "111"}, 0, false},
@@ -72,6 +125,9 @@ func TestOrganizationRepoListNotExistedRecord(t *testing.T) {
 }
 
 func TestOrganizationRepoListInvalidInput(t *testing.T) {
+	mockOrgRepo := &files.OrganizationRepo{}
+	mockOrgRepo.LoadDataFromBytes([]byte(mockDataOrg))
+
 	testcases := []SearchTestCase{
 		// search by invalid input.
 		{"Search by invalid _id", SearchArgs{"_id", "id"}, 0, true},

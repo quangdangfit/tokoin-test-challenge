@@ -19,7 +19,7 @@ type OrganizationRepo struct {
 
 func NewOrgRepository() repositories.IOrgRepository {
 	orgRepo := OrganizationRepo{}
-	err := orgRepo.LoadData(config.Config.Data.Organization)
+	err := orgRepo.LoadDataFromFile(config.Config.Data.Organization)
 	if err != nil {
 		fmt.Println("Cannot load data, error: ", err)
 	}
@@ -27,19 +27,23 @@ func NewOrgRepository() repositories.IOrgRepository {
 	return &orgRepo
 }
 
-func (r *OrganizationRepo) LoadData(path string) error {
-	data, err := utils.ReadJsonFile(path)
+func (r *OrganizationRepo) LoadDataFromFile(path string) error {
+	data, err := utils.ReadJson(path)
 	if err != nil {
 		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
 	}
+	r.LoadDataFromBytes(data)
 
+	return nil
+}
+
+func (r *OrganizationRepo) LoadDataFromBytes(data []byte) error {
 	var orgs models.Organizations
-	bytes, err := json.Marshal(data)
+	err := json.Unmarshal(data, &orgs)
 	if err != nil {
-		return errors.Wrap(err, "cannot marshal to json")
+		return err
 	}
 
-	json.Unmarshal(bytes, &orgs)
 	r.organizations = orgs
 
 	return nil
