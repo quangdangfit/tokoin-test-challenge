@@ -28,9 +28,8 @@ go run main.go
 ```
 ##### Test
 ```shell script
-go test ./tests
+go test ./tests -v
 ```
-The test coverage is **87.4%** statements. 
 
 #### Structure
 ```shell script
@@ -47,8 +46,8 @@ The test coverage is **87.4%** statements.
 ```
 
 #### Result
-* Pass **200/200** testcases.
-* The test coverage is **87.4%** statements.
+* Testcases passed: **234/234**.
+* Coverage: **88.2%** files, **89.3%** statements.
 
 #### Contributing
 If you want to contribute to this boilerplate, clone the repository and just start making pull requests.
