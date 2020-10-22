@@ -19,23 +19,24 @@ type UserRepo struct {
 
 func NewUserRepository() repositories.IUserRepository {
 	userRepo := UserRepo{}
-	userRepo.LoadData(config.Config.Data.User)
+	userRepo.LoadDataFromFile(config.Config.Data.User)
 	return &userRepo
 }
 
-func (r *UserRepo) LoadData(path string) error {
+func (r *UserRepo) LoadDataFromFile(path string) error {
 	data, err := utils.ReadJsonFile(path)
 	if err != nil {
 		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
 	}
+	return r.LoadDataFromBytes(data)
+}
 
+func (r *UserRepo) LoadDataFromBytes(data []byte) error {
 	var users models.Users
-	bytes, err := json.Marshal(data)
+	err := json.Unmarshal(data, &users)
 	if err != nil {
-		return errors.Wrap(err, "cannot marshal to json")
+		return err
 	}
-
-	json.Unmarshal(bytes, &users)
 	r.users = users
 
 	return nil

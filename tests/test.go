@@ -46,7 +46,7 @@ func init() {
 	mockTicketRepo.LoadDataFromFile(TestDataTicketFilePath)
 
 	mockUserRepo = &files.UserRepo{}
-	mockUserRepo.LoadData(TestDataUserFilePath)
+	mockUserRepo.LoadDataFromFile(TestDataUserFilePath)
 
 	mockOrgService = services.NewOrgService(mockOrgRepo, mockTicketRepo, mockUserRepo)
 	mockTicketService = services.NewTicketService(mockOrgRepo, mockTicketRepo, mockUserRepo)

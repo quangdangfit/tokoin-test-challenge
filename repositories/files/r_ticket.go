@@ -24,7 +24,7 @@ func NewTicketRepository() repositories.ITicketRepository {
 }
 
 func (r *TicketRepo) LoadDataFromFile(path string) error {
-	data, err := utils.ReadJson(path)
+	data, err := utils.ReadJsonFile(path)
 	if err != nil {
 		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
 	}
