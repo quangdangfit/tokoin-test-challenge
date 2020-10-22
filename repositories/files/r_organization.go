@@ -15,6 +15,7 @@ import (
 
 type OrganizationRepo struct {
 	organizations models.Organizations
+	orgIDMap      map[int]*models.Organization
 }
 
 func NewOrgRepository() repositories.IOrgRepository {
@@ -43,20 +44,17 @@ func (r *OrganizationRepo) LoadDataFromBytes(data []byte) error {
 	if err != nil {
 		return err
 	}
-
 	r.organizations = orgs
+	r.orgIDMap = map[int]*models.Organization{}
+	for _, org := range orgs {
+		r.orgIDMap[org.ID] = org
+	}
 
 	return nil
 }
 
 func (r *OrganizationRepo) Retrieve(id int) (*models.Organization, error) {
-	for _, org := range r.organizations {
-		if org.ID == id {
-			return org, nil
-		}
-	}
-
-	return nil, nil
+	return r.orgIDMap[id], nil
 }
 
 func (r *OrganizationRepo) List(key, value string) (*models.Organizations, error) {
