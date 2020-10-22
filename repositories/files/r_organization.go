@@ -65,10 +65,9 @@ func (r *OrganizationRepo) List(key, value string) (*models.Organizations, error
 		if err != nil {
 			return &results, errors.New("input _id is invalid")
 		}
-		for _, org := range r.organizations {
-			if org.ID == id {
-				results = append(results, org)
-			}
+		org, _ := r.Retrieve(id)
+		if org != nil {
+			results = append(results, org)
 		}
 	case "url":
 		for _, org := range r.organizations {

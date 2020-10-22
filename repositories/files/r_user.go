@@ -14,7 +14,8 @@ import (
 )
 
 type UserRepo struct {
-	users models.Users
+	users     models.Users
+	userIDMap map[int]*models.User
 }
 
 func NewUserRepository() repositories.IUserRepository {
@@ -38,18 +39,16 @@ func (r *UserRepo) LoadDataFromBytes(data []byte) error {
 		return err
 	}
 	r.users = users
+	r.userIDMap = map[int]*models.User{}
+	for _, u := range users {
+		r.userIDMap[u.ID] = u
+	}
 
 	return nil
 }
 
 func (r *UserRepo) Retrieve(id int) (*models.User, error) {
-	for _, user := range r.users {
-		if user.ID == id {
-			return user, nil
-		}
-	}
-
-	return nil, nil
+	return r.userIDMap[id], nil
 }
 
 func (r *UserRepo) List(key, value string) (*models.Users, error) {
@@ -60,10 +59,9 @@ func (r *UserRepo) List(key, value string) (*models.Users, error) {
 		if err != nil {
 			return &results, errors.New("input _id is invalid")
 		}
-		for _, user := range r.users {
-			if user.ID == id {
-				results = append(results, user)
-			}
+		user, _ := r.Retrieve(id)
+		if user != nil {
+			results = append(results, user)
 		}
 	case "url":
 		for _, user := range r.users {
