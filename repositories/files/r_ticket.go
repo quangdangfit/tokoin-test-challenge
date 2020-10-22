@@ -19,23 +19,24 @@ type TicketRepo struct {
 
 func NewTicketRepository() repositories.ITicketRepository {
 	ticketRepo := TicketRepo{}
-	ticketRepo.LoadData(config.Config.Data.Ticket)
+	ticketRepo.LoadDataFromFile(config.Config.Data.Ticket)
 	return &ticketRepo
 }
 
-func (r *TicketRepo) LoadData(path string) error {
-	data, err := utils.ReadJsonFile(path)
+func (r *TicketRepo) LoadDataFromFile(path string) error {
+	data, err := utils.ReadJson(path)
 	if err != nil {
 		return errors.Wrap(err, fmt.Sprintf("cannot load data from json file %s", path))
 	}
+	return r.LoadDataFromBytes(data)
+}
 
+func (r *TicketRepo) LoadDataFromBytes(data []byte) error {
 	var tickets models.Tickets
-	bytes, err := json.Marshal(data)
+	err := json.Unmarshal(data, &tickets)
 	if err != nil {
-		return errors.Wrap(err, "cannot marshal to json")
+		return err
 	}
-
-	json.Unmarshal(bytes, &tickets)
 	r.tickets = tickets
 
 	return nil

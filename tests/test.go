@@ -43,7 +43,7 @@ func init() {
 	mockOrgRepo.LoadDataFromFile(TestDataOrgFilePath)
 
 	mockTicketRepo = &files.TicketRepo{}
-	mockTicketRepo.LoadData(TestDataTicketFilePath)
+	mockTicketRepo.LoadDataFromFile(TestDataTicketFilePath)
 
 	mockUserRepo = &files.UserRepo{}
 	mockUserRepo.LoadData(TestDataUserFilePath)
