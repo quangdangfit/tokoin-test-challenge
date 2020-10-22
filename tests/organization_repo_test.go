@@ -55,10 +55,25 @@ const mockDataOrg = `
   }
 ]`
 
+func TestOrganizationRepoLoadDataFromFile(t *testing.T) {
+	testcases := []TestCase{
+		{"Load from existed file", sampleFilePath, nil, false},
+		{"Load from not existed file", "", nil, true},
+	}
+
+	for _, testcase := range testcases {
+		t.Run(testcase.Name, func(t *testing.T) {
+			repo := &files.OrganizationRepo{}
+			err := repo.LoadDataFromFile(testcase.Args.(string))
+			assert.Equal(t, testcase.ExpectedError, err != nil, err)
+		})
+	}
+}
+
 func TestOrganizationRepoLoadDataFromBytes(t *testing.T) {
 	testcases := []TestCase{
-		{"Load from existed file", mockDataOrg, nil, false},
-		{"Load from not existed file", invalidDataOrg, nil, true},
+		{"Load from valid json bytes", mockDataOrg, nil, false},
+		{"Load from invalid json bytes", invalidDataOrg, nil, true},
 	}
 
 	for _, testcase := range testcases {

@@ -6,9 +6,7 @@ import (
 )
 
 const (
-	TestDataOrgFilePath    = "data/organizations.json"
-	TestDataTicketFilePath = "data/tickets.json"
-	TestDataUserFilePath   = "data/users.json"
+	sampleFilePath = "data/sample.json"
 )
 
 type SearchArgs struct {

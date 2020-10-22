@@ -82,6 +82,21 @@ const mockDataTickets = `[
 ]
 `
 
+func TestTicketRepoLoadDataFromFile(t *testing.T) {
+	testcases := []TestCase{
+		{"Load from existed file", sampleFilePath, nil, false},
+		{"Load from not existed file", "", nil, true},
+	}
+
+	for _, testcase := range testcases {
+		t.Run(testcase.Name, func(t *testing.T) {
+			repo := &files.TicketRepo{}
+			err := repo.LoadDataFromFile(testcase.Args.(string))
+			assert.Equal(t, testcase.ExpectedError, err != nil, err)
+		})
+	}
+}
+
 func TestTicketRepoLoadData(t *testing.T) {
 	testcases := []TestCase{
 		{"Load from existed file", mockDataTickets, nil, false},

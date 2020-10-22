@@ -116,6 +116,21 @@ const mockDataUsers = `[
 ]
 `
 
+func TestUserRepoLoadDataFromFile(t *testing.T) {
+	testcases := []TestCase{
+		{"Load from existed file", sampleFilePath, nil, false},
+		{"Load from not existed file", "", nil, true},
+	}
+
+	for _, testcase := range testcases {
+		t.Run(testcase.Name, func(t *testing.T) {
+			repo := &files.UserRepo{}
+			err := repo.LoadDataFromFile(testcase.Args.(string))
+			assert.Equal(t, testcase.ExpectedError, err != nil, err)
+		})
+	}
+}
+
 func TestUserRepoLoadData(t *testing.T) {
 	testcases := []TestCase{
 		{"Load from existed file", mockDataUsers, nil, false},
