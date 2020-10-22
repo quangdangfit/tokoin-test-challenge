@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/jinzhu/copier"
@@ -37,49 +36,13 @@ func (s *OrgService) List(key, value string) (*schema.Organizations, error) {
 		strOrgID := strconv.Itoa(org.ID)
 
 		// Get tickets of organization
-		ticketSubjects, err := s.getTicketSubjects(strOrgID)
-		if err != nil {
-			fmt.Printf("Cannot get ticket subjects of organization %s. Error: %s\n", strOrgID, err)
-		}
-		rs.TicketSubjects = ticketSubjects
+		rs.TicketSubjects, _ = s.ticketRepo.ListSubjects("organization_id", strOrgID)
 
 		// Get user names of organization
-		userNames, err := s.getUserNames(strOrgID)
-		if err != nil {
-			fmt.Printf("Cannot get user names of organization %s. Error: %s\n", strOrgID, err)
-		}
-		rs.UserNames = userNames
+		rs.UserNames, _ = s.userRepo.ListNames("organization_id", strOrgID)
 
 		results = append(results, &rs)
 	}
 
 	return &results, nil
-}
-
-func (s *OrgService) getTicketSubjects(orgID string) ([]string, error) {
-	tSubjects := []string{}
-	tickets, err := s.ticketRepo.List("organization_id", orgID)
-	if err != nil {
-		return tSubjects, err
-	}
-
-	for _, t := range *tickets {
-		tSubjects = append(tSubjects, t.Subject)
-	}
-
-	return tSubjects, nil
-}
-
-func (s *OrgService) getUserNames(orgID string) ([]string, error) {
-	uNames := []string{}
-	users, err := s.userRepo.List("organization_id", orgID)
-	if err != nil {
-		return uNames, err
-	}
-
-	for _, u := range *users {
-		uNames = append(uNames, u.Name)
-	}
-
-	return uNames, nil
 }

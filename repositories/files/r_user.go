@@ -205,3 +205,17 @@ func (r *UserRepo) List(key, value string) (*models.Users, error) {
 
 	return &results, nil
 }
+
+func (r *UserRepo) ListNames(key, value string) ([]string, error) {
+	rs := []string{}
+	users, err := r.List(key, value)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, u := range *users {
+		rs = append(rs, u.Name)
+	}
+
+	return rs, nil
+}
