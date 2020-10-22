@@ -1,0 +1,28 @@
+[
+  {
+    "_id": 39,
+    "url": "http://initech.tokoin.io.com/api/v2/users/39.json",
+    "external_id": "66a3589c-8aab-485b-9da3-e79adb85a4de",
+    "name": "Jennifer Gaines",
+    "alias": "Miss Hammond",
+    "created_at": "2016-03-25T02:02:13 -11:00",
+    "active": false,
+    "verified": true,
+    "shared": true,
+    "locale": "en-AU",
+    "timezone": "Mayotte",
+    "last_login_at": "2016-02-19T03:04:47 -11:00",
+    "email": "hammondgaines@flotonic.com",
+    "phone": "8804-843-526",
+    "signature": "Don't Worry Be Happy!",
+    "organization_id": 101,
+    "tags": [
+      "Tilleda",
+      "Frank",
+      "Fairmount",
+      "Marion"
+    ],
+    "suspended": true,
+    "role": "agent"
+  }
+]

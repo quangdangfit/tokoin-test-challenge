@@ -38,15 +38,31 @@ var mockOrgService *services.OrgService
 var mockTicketService *services.TicketService
 var mockUserService *services.UserService
 
+func NewOrgRepo() *files.OrganizationRepo {
+	mockOrgRepo := &files.OrganizationRepo{}
+	mockOrgRepo.LoadDataFromBytes([]byte(mockDataOrg))
+
+	return mockOrgRepo
+}
+
+func NewTicketRepo() *files.TicketRepo {
+	mockTicketRepo := &files.TicketRepo{}
+	mockTicketRepo.LoadDataFromBytes([]byte(mockDataTickets))
+
+	return mockTicketRepo
+}
+
+func NewUserRepo() *files.UserRepo {
+	mockUserRepo := &files.UserRepo{}
+	mockUserRepo.LoadDataFromBytes([]byte(mockDataUsers))
+
+	return mockUserRepo
+}
+
 func init() {
-	mockOrgRepo = &files.OrganizationRepo{}
-	mockOrgRepo.LoadDataFromFile(TestDataOrgFilePath)
-
-	mockTicketRepo = &files.TicketRepo{}
-	mockTicketRepo.LoadDataFromFile(TestDataTicketFilePath)
-
-	mockUserRepo = &files.UserRepo{}
-	mockUserRepo.LoadDataFromFile(TestDataUserFilePath)
+	mockOrgRepo = NewOrgRepo()
+	mockTicketRepo = NewTicketRepo()
+	mockUserRepo = NewUserRepo()
 
 	mockOrgService = services.NewOrgService(mockOrgRepo, mockTicketRepo, mockUserRepo)
 	mockTicketService = services.NewTicketService(mockOrgRepo, mockTicketRepo, mockUserRepo)
