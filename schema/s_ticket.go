@@ -29,3 +29,17 @@ type Tickets []*Ticket
 func (t Ticket) ToString() string {
 	return utils.Jsonify(t)
 }
+
+func (t Tickets) ToString() string {
+	rs := ""
+	for _, e := range t {
+		if e != nil {
+			rs += e.ToString() + "\n" + "\n-------------------------------------------\n"
+		}
+	}
+	return rs
+}
+
+func (t Tickets) Length() int {
+	return len(t)
+}

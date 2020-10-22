@@ -32,3 +32,17 @@ type Users []*User
 func (u User) ToString() string {
 	return utils.Jsonify(u)
 }
+
+func (u Users) ToString() string {
+	rs := ""
+	for _, e := range u {
+		if e != nil {
+			rs += e.ToString() + "\n" + "\n-------------------------------------------\n"
+		}
+	}
+	return rs
+}
+
+func (u Users) Length() int {
+	return len(u)
+}

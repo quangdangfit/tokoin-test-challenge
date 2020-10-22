@@ -23,3 +23,17 @@ type Organizations []*Organization
 func (o Organization) ToString() string {
 	return utils.Jsonify(o)
 }
+
+func (o Organizations) ToString() string {
+	rs := ""
+	for _, e := range o {
+		if e != nil {
+			rs += e.ToString() + "\n-------------------------------------------\n"
+		}
+	}
+	return rs
+}
+
+func (o Organizations) Length() int {
+	return len(o)
+}

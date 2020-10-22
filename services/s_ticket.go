@@ -46,14 +46,18 @@ func (s *TicketService) List(key, value string) (*schema.Tickets, error) {
 		if err != nil {
 			fmt.Printf("Cannot get assignee of ticket %s. Error: %s\n", ticket.ID, err)
 		}
-		rs.AssigneeName = assignee.Name
+		if assignee != nil {
+			rs.AssigneeName = assignee.Name
+		}
 
 		// Get submitter for ticket
 		submitter, err := s.userRepo.Retrieve(ticket.SubmitterID)
 		if err != nil {
 			fmt.Printf("Cannot get submitter of ticket %s. Error: %s\n", ticket.ID, err)
 		}
-		rs.SubmitterName = submitter.Name
+		if submitter != nil {
+			rs.SubmitterName = submitter.Name
+		}
 
 		results = append(results, &rs)
 	}
