@@ -37,22 +37,10 @@ func (s *UserService) List(key, value string) (*schema.Users, error) {
 		strUID := strconv.Itoa(u.ID)
 
 		// Get assignee tickets tickets for user
-		assigneeTickets, err := s.ticketRepo.List("assignee_id", strUID)
-		if err != nil {
-			fmt.Printf("Cannot get assignee tickets of user %d. Error: %s\n", u.ID, err)
-		}
-		for _, t := range *assigneeTickets {
-			rs.AssigneeTicketSubjects = append(rs.AssigneeTicketSubjects, t.Subject)
-		}
+		rs.AssigneeTicketSubjects, _ = s.ticketRepo.ListSubjects("assignee_id", strUID)
 
 		// Get submitted tickets tickets for user
-		submittedTickets, err := s.ticketRepo.List("submitter_id", strUID)
-		if err != nil {
-			fmt.Printf("Cannot get submitted tickets of user %d. Error: %s\n", u.ID, err)
-		}
-		for _, t := range *submittedTickets {
-			rs.SubmittedTicketSubjects = append(rs.SubmittedTicketSubjects, t.Subject)
-		}
+		rs.SubmittedTicketSubjects, _ = s.ticketRepo.ListSubjects("submitter_id", strUID)
 
 		// Get organization of user
 		org, err := s.orgRepo.Retrieve(u.OrganizationID)

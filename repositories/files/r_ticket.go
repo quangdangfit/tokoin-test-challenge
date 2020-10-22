@@ -169,3 +169,17 @@ func (r *TicketRepo) List(key, value string) (*models.Tickets, error) {
 
 	return &results, nil
 }
+
+func (r *TicketRepo) ListSubjects(key, value string) ([]string, error) {
+	rs := []string{}
+	tickets, err := r.List(key, value)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, t := range *tickets {
+		rs = append(rs, t.Subject)
+	}
+
+	return rs, nil
+}
